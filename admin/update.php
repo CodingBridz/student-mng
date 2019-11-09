@@ -4,10 +4,25 @@ if (!isset($_SESSION['username'])) {
   header('location:login.php');
 }
 ?>
+<?php
+$conn=mysqli_connect("localhost","root","","form_db") or die("connection Failed");
+     
+     if (isset($_GET['upd'])) {
+     	$id = $_GET['upd'];
+     $query ="SELECT * FROM students WHERE id = $id";
+     $fire = mysqli_query($conn,$query) or die("Cannot Fetch ".mysqli_error($conn));
+     if ($fire) {
+     	$data = mysqli_fetch_assoc($fire);
+
+     }
+     }
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>insert form</title>
+<title>Update</title>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="../css/style1.css" rel="stylesheet" type="text/css" media="all" />
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
@@ -43,7 +58,7 @@ if (!isset($_SESSION['username'])) {
 				<form method="post">
 						<div class="row">
 							<div class="col-sm-12">
-								<h1>Insert form</h1>
+								<h1>Update</h1>
 							</div>
 						</div>
 
@@ -51,14 +66,14 @@ if (!isset($_SESSION['username'])) {
 							<div class="col-sm-6">
 								<div class="inputBox ">
 									<div class="inputText">Student Name</div>
-									<input type="text" name="name" class="input">
+									<input value="<?php echo $data['name'] ?>" type="text" name="name" class="input">
 								</div>
 							</div>
 
 							<div class="col-sm-6">
 								<div class="inputBox">
 									<div class="inputText">Roll No</div>
-									<input type="text" name="rollno" class="input">
+									<input value="<?php echo $data['roll_no'] ?>" type="text" name="rollno" class="input">
 								</div>
 							</div>
 						</div>
@@ -67,14 +82,14 @@ if (!isset($_SESSION['username'])) {
 							<div class="col-sm-6">
 								<div class="inputBox">
 									<div class="inputText">Email</div>
-									<input type="text" name="email" class="input">
+									<input value="<?php echo $data['email'] ?>"type="text" name="email" class="input">
 								</div>
 							</div>
 
 							<div class="col-sm-6">
 								<div class="inputBox">
-									<div class="inputText">Mobile</div>
-									<input type="text" name="mobile" class="input">
+									<div  class="inputText">Mobile</div>
+									<input value="<?php echo $data['mobile'] ?>" type="text" name="mobile" class="input">
 								</div>
 							</div>
 						</div>
@@ -90,37 +105,35 @@ if (!isset($_SESSION['username'])) {
 
 						<div class="row">
 							<div class="col-sm-12">
-								<input type="submit" name="save" class="button btn-info" value="Insert Data">
+								<input type="submit" name="update" class="button btn-info" value="Update">
 							</div>
 						</div>
 				</form>
 			</div>
 		</div>
 	</div>
+
+</body>
+</html>
+<!-- Update Query -->
 <?php
 $conn=mysqli_connect("localhost","root","","form_db") or die("connection Failed");
-      if (!empty($_POST['save'])){
+if (isset($_POST['update'])){
 		$name=$_POST['name'];
 		$rollno = $_POST['rollno'];
 		$email=$_POST['email'];
 		$mobile=$_POST['mobile'];
 		$address=$_POST['address'];
 
-		$query="insert into students(name,email,roll_no,mobile,address) values('$name','$email','$rollno','$mobile','$address')";
+		$query="UPDATE `students` SET `name`='$name',`email`='$email',`roll_no`='$rollno',`mobile`='$mobile' WHERE id = $id";
 		if(mysqli_query($conn,$query))
 		{
 			header('location:home.php');
 		}
-		else
-		{
-   
-                 echo "Record Not Inserted";
+		else{
+			echo "Succes";
 		}
-		
 		}
 
-$conn->close();
+
 ?>
-
-</body>
-</html>

@@ -4,6 +4,7 @@ if (!isset($_SESSION['username'])) {
   header('location:login.php');
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +33,9 @@ if (!isset($_SESSION['username'])) {
       <li class="nav-item">
         <a class="nav-link" href="insert.php">Insert</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="update.php">Update</a>
+      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -39,6 +43,58 @@ if (!isset($_SESSION['username'])) {
     </form>
   </div>
 </nav>
+<br/>
+<br/>
+<br/>
+<br/>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">Roll No</th>
+      <th scope="col">Email</th>
+      <th scope="col">Mobile</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+ <?php
+
+$conn=mysqli_connect("localhost","root","","form_db") or die("connection Failed");
+
+if (!empty($_GET['del'])) {
+  $id=$_GET['del'];
+  $qry="delete from students where id=$id";
+  if (mysqli_query($conn,$qry)) {
+    
+  }
+  else{
+    echo "check the code";
+  }
+
+}
+       $query = "SELECT * FROM students";
+       $fire = mysqli_query($conn,$query) or die("Can not Fetch Data".mysqli_error($conn));
+
+           if(mysqli_num_rows($fire)>0){  
+          while ($result = mysqli_fetch_assoc($fire)) {?>
+    <tr>
+      <td><?php echo $result['id']; ?></td>
+      <td><?php echo $result['name']; ?></td>
+      <td><?php echo $result['roll_no']; ?></td>
+      <td><?php echo $result['email']; ?></td>
+      <td><?php echo $result['mobile'];?></td>
+      <td><a href="home.php?del=<?php echo $result['id']; ?>" class="btn btn-danger">Delete</a> | 
+      <a href="update.php?upd=<?php echo $result['id']; 
+      ?>" class="btn btn-info" name>Update</a></td>
+    </tr>
+
+<?php }
+}?>
+
+  </tbody>
+</table>
 
 
 </body>
