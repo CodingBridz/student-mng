@@ -40,7 +40,7 @@ if (!isset($_SESSION['username'])) {
 	<div class="container-fluid">
 		<div class="container">
 			<div class="formBox">
-				<form method="post">
+				<form method="post" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-sm-12">
 								<h1>Insert form</h1>
@@ -90,9 +90,17 @@ if (!isset($_SESSION['username'])) {
 
 						<div class="row">
 							<div class="col-sm-12">
+								<input class="text" type="file" name="image" >
+							</div>
+						</div><br><br>
+
+						<div class="row">
+							<div class="col-sm-12">
 								<input type="submit" name="save" class="button btn-info" value="Insert Data">
 							</div>
 						</div>
+
+
 				</form>
 			</div>
 		</div>
@@ -105,8 +113,11 @@ $conn=mysqli_connect("localhost","root","","form_db") or die("connection Failed"
 		$email=$_POST['email'];
 		$mobile=$_POST['mobile'];
 		$address=$_POST['address'];
+		$imagename = $_FILES['image']['name'];
+    	$tempimgname = $_FILES['image']['tmp_name'];
+    	move_uploaded_file($tempimgname,"images/$imagename");
 
-		$query="insert into students(name,email,roll_no,mobile,address) values('$name','$email','$rollno','$mobile','$address')";
+		$query="insert into students(name,email,roll_no,mobile,address,image) values('$name','$email','$rollno','$mobile','$address','$imagename')";
 		if(mysqli_query($conn,$query))
 		{
 			header('location:home.php');

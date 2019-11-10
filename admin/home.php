@@ -55,6 +55,7 @@ if (!isset($_SESSION['username'])) {
       <th scope="col">Roll No</th>
       <th scope="col">Email</th>
       <th scope="col">Mobile</th>
+      <th scope="col">Images</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -85,6 +86,7 @@ if (!empty($_GET['del'])) {
       <td><?php echo $result['roll_no']; ?></td>
       <td><?php echo $result['email']; ?></td>
       <td><?php echo $result['mobile'];?></td>
+      <td><img src="<?php echo $result['image'];?>"></td>
       <td><a href="home.php?del=<?php echo $result['id']; ?>" class="btn btn-danger">Delete</a> | 
       <a href="update.php?upd=<?php echo $result['id']; 
       ?>" class="btn btn-info" name>Update</a></td>
