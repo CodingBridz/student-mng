@@ -75,14 +75,28 @@ if (!empty($_GET['del'])) {
   }
 
 }
-  if(!empty($_GET['search'])){
+
+$limit=2;
+if(empty($_GET['p'])) 
+{
+  $start=0;
+}
+else
+{
+    $pi=$_GET['p'];
+    $end=$pi*$limit;
+    $start=$end-$limit;
+    
+}
+
+if(!empty($_GET['search'])){
       $ss=$_GET['search'];
       $query="select * from students where name like '%$ss%'";
     }else{
-      $query = "SELECT * FROM students";
-    }     
-      $fire = mysqli_query($conn,$query) or die("Can not Fetch Data".mysqli_error($conn));
+      $query = "SELECT * FROM students limit $start,$limit";
+    }
 
+      $fire = mysqli_query($conn,$query) or die("Can not Fetch Data".mysqli_error($conn));
            if(mysqli_num_rows($fire)>0){  
           while ($result = mysqli_fetch_assoc($fire)) {?>
     <tr>
