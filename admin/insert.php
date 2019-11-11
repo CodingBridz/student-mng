@@ -99,8 +99,6 @@ if (!isset($_SESSION['username'])) {
 								<input type="submit" name="save" class="button btn-info" value="Insert Data">
 							</div>
 						</div>
-
-
 				</form>
 			</div>
 		</div>
@@ -115,9 +113,9 @@ $conn=mysqli_connect("localhost","root","","form_db") or die("connection Failed"
 		$address=$_POST['address'];
 		$imagename = $_FILES['image']['name'];
     	$tempimgname = $_FILES['image']['tmp_name'];
-    	move_uploaded_file($tempimgname,"images/$imagename");
-
-		$query="insert into students(name,email,roll_no,mobile,address,image) values('$name','$email','$rollno','$mobile','$address','$imagename')";
+    	$folder = "images/".$imagename;
+    	move_uploaded_file($tempimgname,$folder);
+		$query="insert into students(name,email,roll_no,mobile,address,images) values('$name','$email','$rollno','$mobile','$address','$folder')";
 		if(mysqli_query($conn,$query))
 		{
 			header('location:home.php');
@@ -125,7 +123,7 @@ $conn=mysqli_connect("localhost","root","","form_db") or die("connection Failed"
 		else
 		{
    
-                 echo "Record Not Inserted";
+            echo "Record Not Inserted";
 		}
 		
 		}
